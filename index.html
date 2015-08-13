@@ -1,0 +1,15 @@
+<!Doctype html>
+<html>
+<head>
+  <title>Linking up jquery modules</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <script src="js/jq/jquery.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    $(document).ready(function() { app.initModule( $("#app") ) });
+  </script>
+</head>
+<body>
+  <div id="app"></div>
+</body>
+</html>

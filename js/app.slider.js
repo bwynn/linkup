@@ -1,18 +1,30 @@
-app.shell = (function() {
+app.slider = (function() {
 // ------------------- MODULE SCOPE VARIABLES ----------------------------------
 var
   configMap = String() +
-            '<div id="content"></div>',
-  stateMap = { $container : null },
+          '<div id="slider">' +
+            '<h1>Slider module now initialized</h1>' +
+          '</div>',
+  stateMap = {
+    $append_target: null
+  },
   jqueryMap = {},
 
-setJqueryMap, initModule;
+setJqueryMap, changeText, initModule;
 // ------------------- END MODULE SCOPE VARIABLES ------------------------------
 
 // ------------------- DOM METHODS ---------------------------------------------
 setJqueryMap = function() {
-  var $container = stateMap.$container;
-  jqueryMap = { $container : $container };
+  var $append_target = stateMap.$append_target,
+  $slider = $append_target.find( '#slider' );
+  jqueryMap = {
+    $slider : $slider,
+    $h1: $slider.find('h1')
+   };
+};
+
+changeText = function() {
+  jqueryMap.$h1.text("New content for the slider module");
 };
 // ------------------- END DOM METHODS -----------------------------------------
 
@@ -20,13 +32,11 @@ setJqueryMap = function() {
 // ------------------- END EVENT HANDLERS --------------------------------------
 
 // ------------------- BEGIN PUBLIC METHODS ------------------------------------
-initModule = function( $container ) {
-  stateMap.$container = $container;
-  $container.html(configMap);
+initModule = function( $append_target ) {
+  $append_target.append( configMap );
+  stateMap.$append_target = $append_target;
   setJqueryMap();
-
-  app.modal.initModule( jqueryMap.$container );
-  app.slider.initModule( jqueryMap.$container );
+  changeText();
 };
 // ------------------- END PUBLIC METHODS --------------------------------------
   return { initModule : initModule };

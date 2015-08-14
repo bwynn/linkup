@@ -1,9 +1,13 @@
-app.shell = (function() {
+app.modal = (function() {
 // ------------------- MODULE SCOPE VARIABLES ----------------------------------
 var
   configMap = String() +
-            '<div id="content"></div>',
-  stateMap = { $container : null },
+          '<div id="modal">' +
+            '<h1>Modal window module working</h1>' +
+          '</div>',
+  stateMap = {
+    $append_target: null
+  },
   jqueryMap = {},
 
 setJqueryMap, initModule;
@@ -11,8 +15,12 @@ setJqueryMap, initModule;
 
 // ------------------- DOM METHODS ---------------------------------------------
 setJqueryMap = function() {
-  var $container = stateMap.$container;
-  jqueryMap = { $container : $container };
+  var $append_target = stateMap.$append_target,
+  $modal = $append_target.find( '#modal' );
+  jqueryMap = {
+    $modal : $modal,
+    $h1: $modal.find('h1')
+   };
 };
 // ------------------- END DOM METHODS -----------------------------------------
 
@@ -20,12 +28,10 @@ setJqueryMap = function() {
 // ------------------- END EVENT HANDLERS --------------------------------------
 
 // ------------------- BEGIN PUBLIC METHODS ------------------------------------
-initModule = function( $container ) {
-  stateMap.$container = $container;
-  $container.html(configMap);
+initModule = function( $append_target ) {
+  $append_target.append( configMap );
+  stateMap.$append_target = $append_target;
   setJqueryMap();
-
-  app.modal.initModule( jqueryMap.$container );
 };
 // ------------------- END PUBLIC METHODS --------------------------------------
   return { initModule : initModule };

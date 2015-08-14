@@ -1,16 +1,30 @@
 app.shell = (function() {
 // ------------------- MODULE SCOPE VARIABLES ----------------------------------
+var
+  configMap = String() +
+            '<div id="content"></div>' +
+            '<div id="modal"></div>',
+  stateMap = { $container : null },
+  jqueryMap = {},
+
+setJqueryMap, initModule;
 // ------------------- END MODULE SCOPE VARIABLES ------------------------------
 
 // ------------------- DOM METHODS ---------------------------------------------
+setJqueryMap = function() {
+  var $container = stateMap.$container;
+  jqueryMap = { $container : $container };
+};
 // ------------------- END DOM METHODS -----------------------------------------
 
 // ------------------- BEGIN EVENT HANDLERS ------------------------------------
 // ------------------- END EVENT HANDLERS --------------------------------------
 
 // ------------------- BEGIN PUBLIC METHODS ------------------------------------
-initModule = function() {
-  
+initModule = function( $container ) {
+  stateMap.$container = $container;
+  $container.html(configMap);
+  setJqueryMap();
 };
 // ------------------- END PUBLIC METHODS --------------------------------------
   return { initModule : initModule };

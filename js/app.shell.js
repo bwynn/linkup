@@ -25,6 +25,7 @@ initModule = function( $container ) {
   $container.html(configMap);
   setJqueryMap();
 
+  app.navigation.initModule( jqueryMap.$container );
   app.modal.initModule( jqueryMap.$container );
   app.slider.initModule( jqueryMap.$container );
 };

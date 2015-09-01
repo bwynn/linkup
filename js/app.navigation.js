@@ -9,51 +9,51 @@ app.navigation = (function() {
                 '<ul></ul>' +
               '</nav>' +
             '</header>',
+      newObject = ["One","Two","Three","Four"],
       stateMap = {
-        $append_target: null,
-        nav_length: 6
+        $append_target: null
       },
       jQueryMap = {},
 
-      setJqueryMap, buildNavMap, navigationGroup, initModule;
+      setJqueryMap, buildNavMap, propagateNav, initModule;
   // ----------------------------- END MODULE SCOPE VARIABLES ------------------
 
   // ----------------------------- BEGIN DOM METHODS ---------------------------
   // Begin DOM method /setJqueryMap/
   setJqueryMap = function() {
     var $append_target = stateMap.$append_target,
-        $navigation = $append_target.find(".global-header");
+        $navigation = $append_target.find("header.global-header");
         jqueryMap = {
           $navigation: $navigation,
           $globalNavigation: $navigation.find(".global-navigation"),
           $mobileNavigation: $navigation.find(".mobile-navigation"),
           $navListContainer: $navigation.find("nav > ul"),
-          $navListElement: $("<li><a></a></li>")
+          $createNavListElement: $("<li><a></a></li>"),
+          $listElement: $navigation.find("ul > li > a")
         };
   };
   // End DOM method /setJqueryMap/
 
   // Begin DOM method /buildNavMap/
-  buildNavMap = function(  ) {
+  buildNavMap = function( obj ) {
     var $nav_container = jqueryMap.$navListContainer,
-        $list_element = jqueryMap.$navListElement,
+        $list_element = jqueryMap.$createNavListElement,
         i;
-
         // loop through the length of the nav item length. This is
         // set to a static number now, but this will be generated based on the
-        // index number of a json object. 
-        for ( i = 0; i < stateMap.nav_length; i++) {
-
+        // index number of a json object.
+        for ( i = 0; i < obj.length; i++) {
           var $newItem = $list_element.clone();
-
           $newItem.appendTo( $nav_container );
         }
 
   };
   // End DOM method /buildNavMap/
 
-  navigationGroup = function() {
-    console.log("navigation group function called.")
+  propagateNav = function( ) {
+    for ( var i = 0; i < newObject.length; i++ ) {
+      console.log( newObject[i] );
+    }
   };
 
   // ----------------------------- END DOM METHODS -----------------------------
@@ -66,7 +66,8 @@ app.navigation = (function() {
     $append_target.append( configMap );
     stateMap.$append_target = $append_target;
     setJqueryMap();
-    buildNavMap();
+    buildNavMap( newObject );
+    propagateNav();
   };
 
   return { initModule: initModule };

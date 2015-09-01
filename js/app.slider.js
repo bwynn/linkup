@@ -3,8 +3,6 @@ app.slider = (function() {
 var
   configMap = String() +
           '<div id="slider">' +
-            '<h1>Slider module now initialized</h1>' +
-            '<a href="#" class="btn">Change content</a>' +
           '</div>',
   stateMap = {
     $append_target: null
@@ -27,7 +25,7 @@ setJqueryMap = function() {
 };
 
 newText = function() {
-  jqueryMap.$h1.text("New content for the slider module");
+  console.log("New content for the slider module");
 };
 // ------------------- END DOM METHODS -----------------------------------------
 

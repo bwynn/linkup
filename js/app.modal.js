@@ -3,7 +3,7 @@ app.modal = (function() {
 var
   configMap = String() +
           '<div id="modal">' +
-            '<h1>Modal window module working</h1>' +
+            '<h1></h1>' +
           '</div>',
   stateMap = {
     $append_target: null

@@ -9,13 +9,26 @@ app.navigation = (function() {
                 '<ul></ul>' +
               '</nav>' +
             '</header>',
-      newObject = ["One","Two","Three","Four"],
+      newObject = [
+        {
+          prop: "One"
+        },
+        {
+          prop: "Two"
+        },
+        {
+          prop: "Three"
+        },
+        {
+          prop: "Four"
+        }
+      ],
       stateMap = {
         $append_target: null
       },
       jQueryMap = {},
 
-      setJqueryMap, buildNavMap, propagateNav, initModule;
+      setJqueryMap, buildNavMap, propagateNav, buildNav, initModule;
   // ----------------------------- END MODULE SCOPE VARIABLES ------------------
 
   // ----------------------------- BEGIN DOM METHODS ---------------------------
@@ -25,17 +38,15 @@ app.navigation = (function() {
         $navigation = $append_target.find("header.global-header");
         jqueryMap = {
           $navigation: $navigation,
-          $globalNavigation: $navigation.find(".global-navigation"),
-          $mobileNavigation: $navigation.find(".mobile-navigation"),
-          $navListContainer: $navigation.find("nav > ul"),
-          $createNavListElement: $("<li><a></a></li>"),
-          $listElement: $navigation.find("ul > li > a")
+          $globalNavigation: $navigation.find(".global-navigation > ul"),
+          $mobileNavigation: $navigation.find(".mobile-navigation > ul"),
+          $createNavListElement: $("<li><a></a></li>")
         };
   };
   // End DOM method /setJqueryMap/
 
   // Begin DOM method /buildNavMap/
-  buildNavMap = function( obj ) {
+  buildNavMap = function( target, obj ) {
     var $nav_container = jqueryMap.$navListContainer,
         $list_element = jqueryMap.$createNavListElement,
         i;
@@ -44,16 +55,23 @@ app.navigation = (function() {
         // index number of a json object.
         for ( i = 0; i < obj.length; i++) {
           var $newItem = $list_element.clone();
-          $newItem.appendTo( $nav_container );
+          $newItem.appendTo( target );
         }
 
   };
   // End DOM method /buildNavMap/
 
-  propagateNav = function( ) {
-    for ( var i = 0; i < newObject.length; i++ ) {
-      console.log( newObject[i] );
-    }
+  propagateNav = function( elem ) {
+    var items = elem.find("a");
+
+    items.each(function(i) {
+      return $(this).text( newObject[i].prop );
+    });
+  };
+
+  buildNav = function( elem ) {
+    buildNavMap( elem, newObject );
+    propagateNav( elem );
   };
 
   // ----------------------------- END DOM METHODS -----------------------------
@@ -66,8 +84,8 @@ app.navigation = (function() {
     $append_target.append( configMap );
     stateMap.$append_target = $append_target;
     setJqueryMap();
-    buildNavMap( newObject );
-    propagateNav();
+    buildNav( jqueryMap.$globalNavigation );
+    buildNav( jqueryMap.$mobileNavigation );
   };
 
   return { initModule: initModule };

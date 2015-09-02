@@ -9,26 +9,13 @@ app.navigation = (function() {
                 '<ul></ul>' +
               '</nav>' +
             '</header>',
-      newObject = [
-        {
-          prop: "One"
-        },
-        {
-          prop: "Two"
-        },
-        {
-          prop: "Three"
-        },
-        {
-          prop: "Four"
-        }
-      ],
+      nav_item_count = 4,
       stateMap = {
         $append_target: null
       },
       jQueryMap = {},
 
-      setJqueryMap, buildNavMap, propagateNav, buildNav, initModule;
+      setJqueryMap, getLinks, buildNavMap, buildNav, initModule;
   // ----------------------------- END MODULE SCOPE VARIABLES ------------------
 
   // ----------------------------- BEGIN DOM METHODS ---------------------------
@@ -50,10 +37,8 @@ app.navigation = (function() {
     var $nav_container = jqueryMap.$navListContainer,
         $list_element = jqueryMap.$createNavListElement,
         i;
-        // loop through the length of the nav item length. This is
-        // set to a static number now, but this will be generated based on the
-        // index number of a json object.
-        for ( i = 0; i < obj.length; i++) {
+        // loop through the length of the nav item length. 
+        for ( i = 0; i < nav_item_count; i++) {
           var $newItem = $list_element.clone();
           $newItem.appendTo( target );
         }
@@ -61,17 +46,19 @@ app.navigation = (function() {
   };
   // End DOM method /buildNavMap/
 
-  propagateNav = function( elem ) {
-    var items = elem.find("a");
-
-    items.each(function(i) {
-      return $(this).text( newObject[i].prop );
-    });
+  buildNav = function( elem ) {
+    buildNavMap( elem );
+    getLinks( elem );
   };
 
-  buildNav = function( elem ) {
-    buildNavMap( elem, newObject );
-    propagateNav( elem );
+  getLinks = function( elem ) {
+      $.getJSON('../data/data.json', function(data) {
+        var items = elem.find("a");
+
+        items.each(function(i) {
+          return $(this).text( data[i].link_name );
+        });
+      });
   };
 
   // ----------------------------- END DOM METHODS -----------------------------
